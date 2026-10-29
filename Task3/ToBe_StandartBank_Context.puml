@@ -1,0 +1,21 @@
+@startuml
+title WarmHouse Context Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "Пользователь", "Пользователь банка")
+Person(client, "Клиент", "Авторизованный клиент банка")
+Person(manager, "Менеджер", "Менеджер бэк-офиса")
+
+System(StandartBankSystem, "Bank Standart System", "System managing members and deposits")
+
+Container_Boundary(StandartBankSystem, "Standart Bank System") {
+
+}
+
+System_Ext(sms_operator, "SMS API", "External API for SMS integration")
+
+
+@enduml

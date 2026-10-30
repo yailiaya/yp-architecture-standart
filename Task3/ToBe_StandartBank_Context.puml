@@ -5,17 +5,23 @@ top to bottom direction
 
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
 
-Person(user, "Пользователь", "Пользователь банка")
-Person(client, "Клиент", "Авторизованный клиент банка")
-Person(manager, "Менеджер", "Менеджер бэк-офиса")
+Person(client, "Client", "Authorized Bank Client")
+Person(manager, "Manager", "Back-office manager")
 
-System(StandartBankSystem, "Bank Standart System", "System managing members and deposits")
+System(StandartBankSystem, "Bank Standart System", "System managing bank products")
 
-Container_Boundary(StandartBankSystem, "Standart Bank System") {
-
+System_Boundary(StandartBankSystem, "Standart Bank System") {
+    System(InternetBankSystem, "internet-bank", "System managing sensors, warmdevices")
+    System(ABS, "ABS", "System managing deposits, credits and bills")
+    System(SMSConnector, "SMS Connector", "Send SMS to telecom operator gateway")
 }
 
-System_Ext(sms_operator, "SMS API", "External API for SMS integration")
+System_Ext(sms_gateway_telecom_operator, "SMS Gateway", "External API for SMS integration")
 
+Rel(client, InternetBankSystem, "Uses the system")
+Rel(InternetBankSystem, ABS, "Uses the system")
+Rel(manager, ABS, "Uses the system")
+Rel(ABS, SMSConnector, "Uses the system")
+Rel(SMSConnector, sms_gateway_telecom_operator, "Uses the system")
 
 @enduml

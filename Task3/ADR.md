@@ -1,6 +1,6 @@
 ### <a name="_b7urdng99y53"></a>**Название задачи:** 
-### <a name="_hjk0fkfyohdk"></a>**Автор:**
-### <a name="_uanumrh8zrui"></a>**Дата:**
+### <a name="_hjk0fkfyohdk">Лукьянов Илья</a>**Автор:**
+### <a name="_uanumrh8zrui"></a>**Дата:**30.10.2026
 ### <a name="_3bfxc9a45514"></a>**Функциональные требования**
 Верхнеуровневые Use Cases.
 

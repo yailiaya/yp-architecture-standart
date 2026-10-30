@@ -11,9 +11,9 @@ Person(manager, "Менеджер", "Менеджер бэк-офиса")
 System(StandartBankSystem, "Bank Standart System", "System managing members and deposits")
 
 Container_Boundary(StandartBankSystem, "Standart Bank System") {
-  Container(WebFrontApp, "Internet Bank Web Interface", "Vue, JavaScript", "Web interface")
+  Container(WebFrontApp, "Internet Bank Web Interface", "", "Web interface")
   Container(LoadBalancer, "Load Balancer", "Nginx", "Load Balancer")
-  Container(WebApp, "Web Application", ".Net", "Handles user interactions")
+  Container(WebApp, "Web Application", "ASP.NET MVC 4.5", "Handles user interactions")
   Container(SMSService, "SMS Service", ".Net", "Send and chech SMS codes")
   Container(SMSGateway, "SMS Gateway", ".Net", "SMS Operator Connector")
   Container(DepositRequestDB, "Deposit Requests DB", "MS SQL", "DB to store deposit requests")

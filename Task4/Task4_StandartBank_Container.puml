@@ -1,0 +1,32 @@
+@startuml
+title Bank Standard Container Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(manager, "Back Office Manager", "Manager of bank back office")
+Person(bank_client_service, "Bank Client Service", "Handle calls from clients")
+Person(partner_client_service, "Partner Client Service", "Client Service from the partner's call center")
+
+System(StandartBankSystem, "Bank Standart System", "System managing members and deposits")
+
+Container_Boundary(StandartBankSystem, "Standart Bank System") {
+  Container(CallCenter, "Call-Center Application", "React.js, Java Spring Boot", "Manages requests from client through phone calls")
+  Container(ABS, "ABS", ".Net", "ABS")
+  Container(EmailConnector, "Email Connector", ".Net", "Email Connector")
+}
+
+System_Ext(call_center_email, "Partner Email Gateway", "Partner Email System")
+
+Rel(bank_client_service, CallCenter, "Uses the system")
+Rel(CallCenter, ABS, "Reads file with deposit rates")
+
+Rel(partner_client_service, call_center_email, "Reads email")
+
+Rel(manager, ABS, "Update rates for a day")
+
+Rel(ABS, EmailConnector, "Sends Emails")
+Rel(EmailConnector, call_center_email, "Sends Emails")
+
+@enduml

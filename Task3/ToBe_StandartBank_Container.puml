@@ -1,0 +1,50 @@
+@startuml
+title Bank Standard Container Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "AUser", "A user of bank site")
+Person(client, "Client", "Bank client (authorized)")
+Person(manager, "Manager", "Back-office Manager")
+Person(bank_client_service, "Bank Client Service", "Handle calls from clients")
+
+System(StandartBankSystem, "Bank Standart System", "System managing members and deposits")
+
+Container_Boundary(StandartBankSystem, "Standart Bank System") {
+  Container(WebFrontApp, "Internet Bank Web Interface", "", "Web interface")
+  Container(LoadBalancer, "Load Balancer", "Nginx", "Load Balancer")
+  Container(WebApp, "Web Application", "ASP.NET MVC 4.5", "Handles user interactions")
+  Container(SMSService, "SMS Service", ".Net", "Send and chech SMS codes")
+  Container(SMSGateway, "SMS Gateway", ".Net", "SMS Operator Connector")
+  Container(DepositRequestDB, "Deposit Requests DB", "MS SQL", "DB to store deposit requests")
+  Container(RequestsLoader, "Request Loader", ".Net", "Translate requesta to ABS")
+  Container(ABS, "ABS", ".Net", "ABS")
+
+  Container(Site, "Web Site", "React.js, Java Spring Boot", "Show information")
+  Container(CallCenter, "Call-Center App", "React.js, Java Spring Boot", "Show information")
+
+}
+
+System_Ext(sms_operator, "SMS API", "External API for SMS integration")
+
+Rel(client, WebFrontApp, "Uses the system")
+Rel(manager, ABS, "Uses the system")
+Rel(WebFrontApp, LoadBalancer, "HTTPS")
+Rel(LoadBalancer, WebApp, "HTTPS")
+Rel(WebApp, SMSService, "Uses the system")
+Rel(WebApp, DepositRequestDB, "Write requests")
+Rel(RequestsLoader, DepositRequestDB, "Read requests")
+Rel(RequestsLoader, ABS, "Write requests")
+Rel(SMSService, SMSGateway, "Sends SMSs")
+Rel(SMSGateway, sms_operator, "Sends SMSs")
+Rel(ABS, SMSGateway, "Sends SMSs")
+
+Rel(user, Site, "Send a request")
+Rel(Site, ABS, "Read file with rates")
+Rel(bank_client_service, CallCenter, "Handle requests")
+Rel(bank_client_service, ABS, "Send requests to back office")
+Rel(Site, CallCenter, "Send a request")
+
+@enduml

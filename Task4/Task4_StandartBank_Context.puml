@@ -1,0 +1,30 @@
+@startuml
+title Bank Standard Context Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(manager, "Back Office Manager", "Manager of bank back office")
+Person(bank_client_service, "Bank Client Service", "Handle calls from clients")
+Person(partner_client_service, "Partner Client Service", "Client Service from the partner's call center")
+
+System(StandartBankSystem, "Bank Standart System", "System managing deposits and other bank products")
+
+System_Boundary(StandartBankSystem, "Standart Bank System") {
+    System(InternetBankSystem, "Call-Center", "Work with request from clients")
+    System(ABS, "ABS", "System managing deposits, credits and bills")
+    System(EmailConnector, "Email Connector", "Send emails to partner")
+}
+
+System_Ext(email_partner_system, "Partner's Email System", "Partner's Email System")
+
+Rel(bank_client_service, InternetBankSystem, "Uses the system")
+Rel(partner_client_service, email_partner_system, "Reads email")
+
+Rel(InternetBankSystem, ABS, "Reads deposit rates")
+Rel(manager, ABS, "Write deposit rates")
+Rel(ABS, EmailConnector, "Sends email")
+Rel(EmailConnector, email_partner_system, "Sends email")
+
+@enduml

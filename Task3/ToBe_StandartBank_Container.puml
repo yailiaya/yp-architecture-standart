@@ -5,8 +5,10 @@ top to bottom direction
 
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
 
-Person(user, "Пользователь", "Пользователь (клиент) банка")
-Person(manager, "Менеджер", "Менеджер бэк-офиса")
+Person(user, "AUser", "A user of bank site")
+Person(client, "Client", "Bank client (authorized)")
+Person(manager, "Manager", "Back-office Manager")
+Person(bank_client_service, "Bank Client Service", "Handle calls from clients")
 
 System(StandartBankSystem, "Bank Standart System", "System managing members and deposits")
 
@@ -19,11 +21,15 @@ Container_Boundary(StandartBankSystem, "Standart Bank System") {
   Container(DepositRequestDB, "Deposit Requests DB", "MS SQL", "DB to store deposit requests")
   Container(RequestsLoader, "Request Loader", ".Net", "Translate requesta to ABS")
   Container(ABS, "ABS", ".Net", "ABS")
+
+  Container(Site, "Web Site", "React.js, Java Spring Boot", "Show information")
+  Container(CallCenter, "Call-Center App", "React.js, Java Spring Boot", "Show information")
+
 }
 
 System_Ext(sms_operator, "SMS API", "External API for SMS integration")
 
-Rel(user, WebFrontApp, "Uses the system")
+Rel(client, WebFrontApp, "Uses the system")
 Rel(manager, ABS, "Uses the system")
 Rel(WebFrontApp, LoadBalancer, "HTTPS")
 Rel(LoadBalancer, WebApp, "HTTPS")
@@ -34,5 +40,11 @@ Rel(RequestsLoader, ABS, "Write requests")
 Rel(SMSService, SMSGateway, "Sends SMSs")
 Rel(SMSGateway, sms_operator, "Sends SMSs")
 Rel(ABS, SMSGateway, "Sends SMSs")
+
+Rel(user, Site, "Send a request")
+Rel(Site, CallCenter, "Send a request")
+Rel(bank_client_service, CallCenter, "Handle requests")
+Rel(bank_client_service, ABS, "Send requests to back office")
+
 
 @enduml

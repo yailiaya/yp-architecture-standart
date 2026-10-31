@@ -1,5 +1,5 @@
 @startuml
-title WarmHouse Context Diagram
+title Bank Standard Context Diagram
 
 top to bottom direction
 
@@ -11,7 +11,7 @@ Person(manager, "Manager", "Back-office manager")
 System(StandartBankSystem, "Bank Standart System", "System managing bank products")
 
 System_Boundary(StandartBankSystem, "Standart Bank System") {
-    System(InternetBankSystem, "internet-bank", "System managing sensors, warmdevices")
+    System(InternetBankSystem, "Internet-Bank", "Internet Bank system")
     System(ABS, "ABS", "System managing deposits, credits and bills")
     System(SMSConnector, "SMS Connector", "Send SMS to telecom operator gateway")
 }
@@ -20,8 +20,9 @@ System_Ext(sms_gateway_telecom_operator, "SMS Gateway", "External API for SMS in
 
 Rel(client, InternetBankSystem, "Uses the system")
 Rel(InternetBankSystem, ABS, "Uses the system")
+
 Rel(manager, ABS, "Uses the system")
-Rel(ABS, SMSConnector, "Uses the system")
-Rel(SMSConnector, sms_gateway_telecom_operator, "Uses the system")
+Rel(ABS, SMSConnector, "Sends sms")
+Rel(SMSConnector, sms_gateway_telecom_operator, "Sends sms")
 
 @enduml

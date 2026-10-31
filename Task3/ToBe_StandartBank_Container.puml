@@ -42,9 +42,9 @@ Rel(SMSGateway, sms_operator, "Sends SMSs")
 Rel(ABS, SMSGateway, "Sends SMSs")
 
 Rel(user, Site, "Send a request")
-Rel(Site, CallCenter, "Send a request")
+Rel(Site, ABS, "Read file with rates")
 Rel(bank_client_service, CallCenter, "Handle requests")
 Rel(bank_client_service, ABS, "Send requests to back office")
-
+Rel(Site, CallCenter, "Send a request")
 
 @enduml
